@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Counter from'./Counter.js'
+import Albuns from './Albuns.js'
+import Users from './Users.js'
+
+const pages = {
+  albuns: {
+    text: 'Álbuns',
+    component: Albuns,
+  },
+  counter: {
+    text: 'Contador',
+    component: Counter,
+  },
+  user: {
+    text: 'Usuário',
+    component: Users,
+  }
 }
 
-export default App;
+function App() {
+  const [page,setPage] = useState('albuns')
+
+  const handleChangePage = (page) => {
+    setPage(page)
+  }
+
+  const Page = pages[page].component
+
+  const pageNames = Object.keys(pages)
+
+  return (
+    <>
+
+    {
+      pageNames.map(page => <button onClick = {() => handleChangePage(page)}>{pages[page].text}</button>)
+    }      
+
+      {Page && <Page />}
+    </>
+  )
+}
+
+export default App
